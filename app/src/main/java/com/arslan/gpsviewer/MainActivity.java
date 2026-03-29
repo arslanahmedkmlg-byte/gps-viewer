@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                         obj.optString("device_id", "unknown"),
                         obj.getDouble("latitude"),
                         obj.getDouble("longitude"),
-                        obj.getDouble("altitude"),
-                        obj.getDouble("accuracy"),
+                        obj.isNull("altitude") ? 0.0 : obj.getDouble("altitude"),
+			obj.isNull("accuracy") ? 0.0 : obj.getDouble("accuracy"),
                         obj.optString("timestamp", ""),
                         obj.optString("received", "")
                     ));
