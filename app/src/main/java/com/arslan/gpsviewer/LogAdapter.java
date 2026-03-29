@@ -37,9 +37,17 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
         LogEntry log = logs.get(position);
         holder.tvId.setText("#" + log.id);
         holder.tvDevice.setText(log.device_id);
-        holder.tvTime.setText(log.timestamp != null ? log.timestamp.substring(0, 16) : "");
+        holder.tvTime.setText((log.timestamp != null && log.timestamp.length() >= 16) ? log.timestamp.substring(0, 16) : (log.timestamp != null ? log.timestamp : ""));
         holder.tvLatLng.setText(String.format("%.6f, %.6f", log.latitude, log.longitude));
         holder.tvAccuracy.setText(String.format("Accuracy: %.1fm  Alt: %.1fm", log.accuracy, log.altitude));
+ 	holder.btnMap.setOnClickListener(v -> {
+    	android.net.Uri uri = android.net.Uri.parse(
+        "geo:" + log.latitude + "," + log.longitude + "?q=" + log.latitude + "," + log.longitude
+   );
+   	 android.content.Intent mapIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
+    	 mapIntent.setPackage("com.google.android.apps.maps");
+    	 context.startActivity(mapIntent);
+});
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
@@ -62,6 +70,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvId, tvDevice, tvTime, tvLatLng, tvAccuracy;
+        android.widget.ImageButton btnMap;
 
         ViewHolder(View view) {
             super(view);
@@ -70,6 +79,6 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
             tvTime = view.findViewById(R.id.tvTime);
             tvLatLng = view.findViewById(R.id.tvLatLng);
             tvAccuracy = view.findViewById(R.id.tvAccuracy);
+            btnMap = view.findViewById(R.id.btnMap);
         }
     }
-}
