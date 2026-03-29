@@ -1,5 +1,3 @@
-package com.arslan.gpsviewer;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,13 +35,11 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         LogEntry log = logs.get(position);
-
         holder.tvId.setText("#" + log.id);
         holder.tvDevice.setText(log.device_id);
         holder.tvTime.setText((log.timestamp != null && log.timestamp.length() >= 16) ? log.timestamp.substring(0, 16) : (log.timestamp != null ? log.timestamp : ""));
         holder.tvLatLng.setText(String.format("%.6f, %.6f", log.latitude, log.longitude));
         holder.tvAccuracy.setText(String.format("Accuracy: %.1fm  Altitude: %.1fm", log.accuracy, log.altitude));
-
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtra("id", log.id);
@@ -56,7 +52,6 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
             intent.putExtra("received", log.received);
             context.startActivity(intent);
         });
-
         holder.btnMap.setOnClickListener(v -> {
             Uri uri = Uri.parse("geo:" + log.latitude + "," + log.longitude + "?q=" + log.latitude + "," + log.longitude);
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
