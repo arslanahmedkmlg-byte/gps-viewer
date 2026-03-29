@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#1976D2"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log Details"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView android:id="@+id/tvDId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#212121"/>
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <TextView android:id="@+id/tvDLat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#212121"/>
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <TextView android:id="@+id/tvDLng"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#212121"/>
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <TextView android:id="@+id/tvDAlt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#212121"/>
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <TextView android:id="@+id/tvDAcc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#212121"/>
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <TextView android:id="@+id/tvDTs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#212121"/>
+
+                <View android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"/>
+
+                <TextView android:id="@+id/tvDRec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:textColor="#212121"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>
