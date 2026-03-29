@@ -2,9 +2,11 @@ package com.arslan.gpsviewer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,19 +37,12 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         LogEntry log = logs.get(position);
+
         holder.tvId.setText("#" + log.id);
         holder.tvDevice.setText(log.device_id);
         holder.tvTime.setText((log.timestamp != null && log.timestamp.length() >= 16) ? log.timestamp.substring(0, 16) : (log.timestamp != null ? log.timestamp : ""));
         holder.tvLatLng.setText(String.format("%.6f, %.6f", log.latitude, log.longitude));
-        holder.tvAccuracy.setText(String.format("Accuracy: %.1fm  Alt: %.1fm", log.accuracy, log.altitude));
- 	holder.btnMap.setOnClickListener(v -> {
-    	android.net.Uri uri = android.net.Uri.parse(
-        "geo:" + log.latitude + "," + log.longitude + "?q=" + log.latitude + "," + log.longitude
-   );
-   	 android.content.Intent mapIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
-    	 mapIntent.setPackage("com.google.android.apps.maps");
-    	 context.startActivity(mapIntent);
-});
+        holder.tvAccuracy.setText(String.format("Accuracy: %.1fm  Altitude: %.1fm", log.accuracy, log.altitude));
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
@@ -61,6 +56,13 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
             intent.putExtra("received", log.received);
             context.startActivity(intent);
         });
+
+        holder.btnMap.setOnClickListener(v -> {
+            Uri uri = Uri.parse("geo:" + log.latitude + "," + log.longitude + "?q=" + log.latitude + "," + log.longitude);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            context.startActivity(mapIntent);
+        });
     }
 
     @Override
@@ -70,7 +72,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvId, tvDevice, tvTime, tvLatLng, tvAccuracy;
-        android.widget.ImageButton btnMap;
+        ImageButton btnMap;
 
         ViewHolder(View view) {
             super(view);
@@ -82,3 +84,4 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
             btnMap = view.findViewById(R.id.btnMap);
         }
     }
+}
