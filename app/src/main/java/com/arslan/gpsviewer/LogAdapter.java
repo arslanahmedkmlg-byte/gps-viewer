@@ -84,4 +84,11 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
             btnMap = view.findViewById(R.id.btnMap);
         }
     }
+}            tvDevice = view.findViewById(R.id.tvDevice);
+            tvTime = view.findViewById(R.id.tvTime);
+            tvLatLng = view.findViewById(R.id.tvLatLng);
+            tvAccuracy = view.findViewById(R.id.tvAccuracy);
+            btnMap = view.findViewById(R.id.btnMap);
+        }
+    }
 }
