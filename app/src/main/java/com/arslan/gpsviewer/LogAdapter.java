@@ -10,7 +10,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
 
@@ -39,7 +43,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
         LogEntry log = logs.get(position);
         holder.tvId.setText("#" + log.id);
         holder.tvDevice.setText(log.device_id);
-        holder.tvTime.setText((log.timestamp != null && log.timestamp.length() >= 16) ? log.timestamp.substring(0, 16) : (log.timestamp != null ? log.timestamp : ""));
+        holder.tvTime.setText(formatLocalTime(log.timestamp));
         holder.tvLatLng.setText(String.format("%.6f, %.6f", log.latitude, log.longitude));
         holder.tvAccuracy.setText(String.format("Accuracy: %.1fm  Altitude: %.1fm", log.accuracy, log.altitude));
         holder.itemView.setOnClickListener(v -> {
@@ -62,8 +66,21 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
         });
     }
 
+    private String formatLocalTime(String utcTimestamp) {
+        if (utcTimestamp == null || utcTimestamp.isEmpty()) return "";
+        try {
+            SimpleDateFormat utcFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            utcFmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = utcFmt.parse(utcTimestamp);
+            SimpleDateFormat localFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            localFmt.setTimeZone(TimeZone.getDefault());
+            return localFmt.format(date);
+        } catch (Exception e) {
+            return utcTimestamp.length() >= 16 ? utcTimestamp.substring(0, 16) : utcTimestamp;
+        }
+    }
+
     @Override
-    public int getItemCount() {
         return logs.size();
     }
 

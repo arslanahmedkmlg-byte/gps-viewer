@@ -6,6 +6,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -20,23 +21,30 @@ public class MainActivity extends AppCompatActivity {
     private static final int REFRESH_INTERVAL = 5000;
 
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefresh;
     private LogAdapter adapter;
     private TextView tvStatus, tvCount;
-    private Handler handler = new Handler();
-    private OkHttpClient client = new OkHttpClient();
+    private final Handler handler = new Handler();
+    private final OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        tvStatus = findViewById(R.id.tvStatus);
-        tvCount = findViewById(R.id.tvCount);
+        recyclerView   = findViewById(R.id.recyclerView);
+        tvStatus       = findViewById(R.id.tvStatus);
+        tvCount        = findViewById(R.id.tvCount);
+        swipeRefresh   = findViewById(R.id.swipeRefresh);
 
         adapter = new LogAdapter(this, new ArrayList<>());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        swipeRefresh.setOnRefreshListener(() -> {
+            handler.removeCallbacksAndMessages(null);
+            fetchLogs();
+        });
 
         fetchLogs();
     }
@@ -59,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                         obj.getDouble("latitude"),
                         obj.getDouble("longitude"),
                         obj.isNull("altitude") ? 0.0 : obj.getDouble("altitude"),
-			obj.isNull("accuracy") ? 0.0 : obj.getDouble("accuracy"),
+                        obj.isNull("accuracy") ? 0.0 : obj.getDouble("accuracy"),
                         obj.optString("timestamp", ""),
                         obj.optString("received", "")
                     ));
@@ -69,12 +77,18 @@ public class MainActivity extends AppCompatActivity {
                     adapter.updateLogs(logs);
                     tvStatus.setText("Last updated: " + new java.util.Date().toString());
                     tvCount.setText(logs.size() + " logs");
+                    swipeRefresh.setRefreshing(false);
                 });
 
             } catch (Exception e) {
-                runOnUiThread(() -> tvStatus.setText("Error: " + e.getMessage()));
+                runOnUiThread(() -> {
+                    tvStatus.setText("Error: " + e.getMessage());
+                    swipeRefresh.setRefreshing(false);
+                });
             }
 
+            // Cancel any pending callbacks before scheduling next poll
+            handler.removeCallbacksAndMessages(null);
             handler.postDelayed(this::fetchLogs, REFRESH_INTERVAL);
         }).start();
     }
