@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     logs.add(new LogEntry(
                         obj.getInt("id"),
                         obj.optString("device_id", "unknown"),
+                        obj.optString("device_name", "Unknown Device"),
                         obj.getDouble("latitude"),
                         obj.getDouble("longitude"),
                         obj.isNull("altitude") ? 0.0 : obj.getDouble("altitude"),
