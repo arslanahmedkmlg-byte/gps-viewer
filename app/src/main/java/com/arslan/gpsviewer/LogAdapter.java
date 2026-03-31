@@ -81,6 +81,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     }
 
     @Override
+    public int getItemCount() {
         return logs.size();
     }
 
