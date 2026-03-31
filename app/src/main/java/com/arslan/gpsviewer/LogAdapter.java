@@ -42,7 +42,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         LogEntry log = logs.get(position);
         holder.tvId.setText("#" + log.id);
-        holder.tvDevice.setText(log.device_id);
+        holder.tvDevice.setText(log.device_name != null ? log.device_name : log.device_id);
         holder.tvTime.setText(formatLocalTime(log.timestamp));
         holder.tvLatLng.setText(String.format("%.6f, %.6f", log.latitude, log.longitude));
         holder.tvAccuracy.setText(String.format("Accuracy: %.1fm  Altitude: %.1fm", log.accuracy, log.altitude));
